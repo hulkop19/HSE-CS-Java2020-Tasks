@@ -50,7 +50,7 @@
     <!-- See http://checkstyle.sourceforge.net/config_misc.html#UniqueProperties -->
     <module name="UniqueProperties"/>
 
-    <!-- Checks whether files end with a new line.                        -->
+    <!-- Checks whether files end with a new column.                        -->
     <!-- See http://checkstyle.sf.net/config_misc.html#NewlineAtEndOfFile -->
     <module name="NewlineAtEndOfFile"/>
 
