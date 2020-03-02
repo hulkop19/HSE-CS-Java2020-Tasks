@@ -30,7 +30,7 @@ public final class DiskAnalyzer {
         TreeSet<FileInfo> biggestFileInfos = new TreeSet<>();
 
         for (var file : listFolderContent(rootFilePath)) {
-            var q  = new LinkedList<Path>();
+            var q = new LinkedList<Path>();
             q.add(file);
 
             long size = 0;
@@ -63,22 +63,26 @@ public final class DiskAnalyzer {
     }
 
     private static List<Path> listFolderContent(Path path) throws IOException {
+        try (var files = Files.list(path)) {
+            return files.filter(DiskAnalyzer::pathCheck)
+                    .collect(Collectors.toList());
+        }
+    }
 
-        return Files.list(path).filter((path1 -> {
-            try {
-                if (Files.isDirectory(path1)) {
-                    Files.list(path1);
-                } else if (Files.isSymbolicLink(path1)) {
-                    return false;
-                } else {
-                    Files.size(path1);
-                }
-
-                return true;
-            } catch (Exception e) {
+    private static boolean pathCheck(Path path) {
+        try {
+            if (Files.isDirectory(path)) {
+                Files.list(path);
+            } else if (Files.isSymbolicLink(path)) {
                 return false;
+            } else {
+                Files.size(path);
             }
-        })).collect(Collectors.toList());
+
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 }
 
