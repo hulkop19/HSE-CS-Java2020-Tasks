@@ -70,6 +70,7 @@ public class LruCache implements Cache {
 
         currentNode.setPrevious(mostRecentlyUsed);
         currentNode.setNext(null);
+        mostRecentlyUsed.setNext(currentNode);
         mostRecentlyUsed = currentNode;
     }
 
